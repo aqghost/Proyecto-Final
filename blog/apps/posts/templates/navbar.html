@@ -1,33 +1,41 @@
-<nav class="navbar navbar-expand-lg bg-light">
+{% load static %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">BlogInfo</a>
+    <a class="navbar-brand" href="#">Cafe404</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+          <a class="nav-link active" aria-current="page" href="/">Inicio</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Destacado</a>
-        </li>
+        
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categorías</a>
             <ul class="dropdown-menu">
             {% for c in categorias %}
-                <li><a class="dropdown-item" href="#"> {{ c.nombre }} </a></li>
+                <li><a class="dropdown-item" href="{% url 'categorias' c.nombre %}"> {{ c.nombre }} </a></li>
             {% endfor %}
             </ul>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Acerca de</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Contacto</a>
+        </li>
       </ul>
       
-      <div>
+      <div class="btn-group">
         {% if user.is_authenticated %}
-        <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="btn btn-outline-primary ms-2" type="submit">Log out</button></form>
+        <a class="btn btn-outline-primary ms-2" href="{% url 'crearpost' %}" role="button">Crear Post</a>
+        &nbsp&nbsp
+        <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="btn btn-danger" type="submit">Cerrar Sesión</button></form>
         {% else %}
-        <a class="btn btn-outline-primary ms-2" href="{% url 'login' %}" role="button">Log In</a>
-        <a class="btn btn-outline-primary ms-2" href="#" role="button">Sign Up</a>
+        <a class="btn btn-outline-primary ms-2" href="{% url 'login' %}" role="button">Iniciar Sesión</a>
+        <a class="btn btn-outline-primary ms-2" href="{% url 'user:registro' %}" role="button">Registrarse</a>
         {% endif %}
       </div>
     </div>
