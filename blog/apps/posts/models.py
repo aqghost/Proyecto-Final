@@ -18,7 +18,7 @@ class Post(models.Model):
     subtitulo = models.CharField(max_length=100, null=True, blank=True)
     fecha = models.DateTimeField(auto_now_add=True)
     texto = models.TextField(null=False)
-    categoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True, default='Sin categoria')
+    categoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True)
     autor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
     destacado = models.BooleanField(default=False)
     publicado = models.DateTimeField(default=timezone.now)
@@ -31,4 +31,4 @@ class Post(models.Model):
         return self.titulo    
 
     def get_absolute_url(self):
-        return reverse('index')
+        return reverse('post_detail', args=(str(self.id)))

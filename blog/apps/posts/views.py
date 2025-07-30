@@ -1,8 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Post, Categoria
 from django.views import generic 
+from django.contrib.auth.decorators import login_required
 from django.utils import timezone
-from django.views.generic import CreateView
+from .forms import BlogPostForm
+#from django.views.generic import CreateView
 # Create your views here.
 
 def index(request):
@@ -50,7 +52,9 @@ class CategoryListView(generic.ListView):
 
         return post_list
     
-class AddPostView(CreateView):
-    model = Post
-    template_name = 'crearpost.html'
-    fields = ["titulo","subtitulo","texto","imagen"]
+class CrearPost(generic.CreateView):
+    login_url = 'login'
+    form_class = BlogPostForm
+    template_name = "crearpost.html"
+    success_url = '/'
+    success_message = "Tu post se ha creado exitosamente"
