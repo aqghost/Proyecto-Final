@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load crispy_forms_tags %}
 {% block content %}
 <div class="container-xxl bd-gutter mt-3 my-md-4 bd-layout">
 
@@ -22,6 +22,33 @@
                 {% endif %}
 
                 <p>{{ post.texto }}</p>
+
+                <h3 id="comentarios">Comentarios</h3>
+                <hr class="d-none d-md-block my-2 mb-3 mt-2">
+
+
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <button class="btn btn-primary" type="submit">Comentar</button>
+                </form>
+
+                <hr class="d-none d-md-block my-2 mb-3 mt-2">
+
+                {% for comentario in post.comentario_set.all %}
+                    <div class="mt-4 mb-2 border border-opacity-10 rounded p-1">
+                        <div class="row">
+                            <div class="d-flex justify-content-between">
+                                <h5>{{ comentario.autor.username }}</h5>
+                                 <div class="align-self-end">-{{ comentario.fecha_comentario }}</div>
+                            </div>
+                            <div class="col-4 text-end">
+                            </div>
+                        </div>
+                        {{ comentario.cont_comentario }}
+                    </div>
+                {% endfor %}
+
 
             </div>
         </div>

@@ -32,3 +32,18 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('post_detail', args=(str(self.id)))
+    
+class Comentario(models.Model):
+    cont_comentario = models.TextField(max_length=1000, help_text='Ingrese su comentario aquí')
+    autor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
+    fecha_comentario = models.DateTimeField(auto_now_add=True)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ['-fecha_comentario']
+
+    def __str__(self):
+        len_title = 15
+        if len(self.cont_comentario) > len_title:
+            return self.cont_comentario[:len_title] + '...'
+        return self.cont_comentario
