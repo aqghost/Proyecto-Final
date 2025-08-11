@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Crear cuenta{% endblock %}
+
+{% block content %}
+<div class="signup-page">
+
+    <div class="crawl-container">
+        <div class="crawl-text">
+            <h1>Únete a la Resistencia</h1>
+            <p>Que la fuerza te acompañe mientras creas tu cuenta</p>
+        </div>
+    </div>
+
+    <form method="post" action="{% url 'signup' %}" class="signup-form">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit">Crear cuenta</button>
+    </form>
+
+    <div class="signup-links">
+        <p>¿Ya tenés una cuenta? <a href="{% url 'login' %}">Inicia sesión</a></p>
+    </div>
+</div>
+{% endblock %}

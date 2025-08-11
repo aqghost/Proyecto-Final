@@ -1,31 +1,27 @@
 {% extends 'base.html' %}
 
+{% block title %}{{ post.titulo }}{% endblock %}
+
 {% block content %}
-<div class="container-xxl bd-gutter mt-3 my-md-4 bd-layout">
+<article class="post-detail">
 
-    <main class="container">
+    <div class="post-header">
+        <h1 class="post-title">{{ post.titulo }}</h1>
+        <div class="post-date">Publicado: {{ post.publicado }}</div>
+    </div>
 
-        <div class="row g-5">
-            <div class="col-md-12">
+    <hr>
 
-                <div class="row">
-                    <div class="d-flex justify-content-between">
-                        <h1>{{ post.titulo }}</h1>
-                        <div class="align-self-end">Publicado: {{ post.publicado }}</div>
-                    </div>
-                </div>
-                <hr class="d-none d-md-block my-2 mb-3 mt-2">
-                {% if post.image %}
-                    <div class="text-center">
-                        <img src="{{ post.image.url }}" class="img-fluid" alt="image">
-                    </div>
-                {% endif %}
-
-                <p>{{ post.texto }}</p>
-
-            </div>
+    {% if post.image %}
+        <div class="post-image">
+            <img src="{{ post.image.url }}" alt="Imagen del post">
         </div>
+    {% endif %}
 
-    </main>
-</div>
-{% endblock content %}
+    <div class="post-body">
+        <p>{{ post.texto }}</p>
+    </div>
+
+    <a href="{% url 'post_list' %}" class="btn-back">⟵ Volver</a>
+</article>
+{% endblock %}

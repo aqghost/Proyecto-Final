@@ -1,54 +1,45 @@
 {% extends 'base.html' %}
-{% block content %} 
-<div class="container-xxl bd-gutter mt-3 my-md-4 bd-layout">
 
-    <main class="container">
+{% block title %}Inicio{% endblock %}
 
-        <div class="row g-5">
-    
-            <div class="col-md-12">
-                {% include "destacado.html" %}
+{% block content %}
+<div class="home-page">
+
+    <!-- Sección de destacados -->
+    {% include "destacado.html" %}
+
+    <!-- Contenido principal -->
+    <div class="main-content">
+
+        <section class="articles">
+            <h3 class="section-title">Más Artículos</h3>
+
+            {% for post in posts %}
+                <article class="blog-post">
+                    <h2 class="blog-post-title">
+                        <a href="{% url 'post' post.id %}" class="post-link">
+                            {{ post.titulo }}
+                        </a>
+                    </h2>
+                    <p class="blog-post-meta">{{ post.publicado }} · {{ post.autor }}</p>
+                    <hr>
+                    <p>{{ post.subtitulo }}</p>
+                </article>
+            {% endfor %}
+        </section>
+
+        <!-- Barra lateral -->
+        <aside class="sidebar">
+            <div class="sidebar-box">
+                <h4>Sobre</h4>
+                <p>Información adicional sobre lo que se encuentra dentro de esta página.</p>
             </div>
-    
-        </div>
 
-        <div class="row g-5">
-            <div class="col-md-8">
-                <h3 class="pb-4 mb-4 fst-italic border-bottom">
-                    Más Artículos
-                </h3>
-                {% for post in posts %}
-                    <article class="blog-post">
-                        <h2 class="blog-post-title mb-1">
-                            <a href="{% url 'post' post.id %}" style="text-decoration: none"
-                               class="text-black">
-                                {{ post.titulo }}
-
-                            </a>
-                        </h2>
-                        <p class="blog-post-meta">{{ post.publicado }}. {{post.autor}}</p>
-
-                        <hr>
-                        <p>{{ post.subtitulo }}</p>
-                    </article>
-                {% endfor %}
-
+            <div class="sidebar-box">
+                <h4>¿Más Cosas?</h4>
             </div>
+        </aside>
 
-            <div class="col-md-4">
-                <div class="position-sticky" style="top: 2rem;">
-                    <div class="p-4 mb-3 bg-light rounded">
-                        <h4 class="fst-italic">Sobre</h4>
-                        <p class="mb-0">Información adicional sobre lo que se encuentra dentro de esta página.</p>
-                    </div>
-            
-                    <div class="p-4">
-                        <h4 class="fst-italic">Más Cosas?</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </main>
+    </div>
 </div>
-{% endblock content %}
+{% endblock %}
