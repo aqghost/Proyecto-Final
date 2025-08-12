@@ -9,7 +9,7 @@
     <!-- Fuentes: Orbitron para títulos, Inter para contenido -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     
-    <!-- Tu nuevo CSS galáctico -->
+    <!-- CSS -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
@@ -22,7 +22,7 @@
         </main>
 
         <footer>
-            <p>© 2025 - David Britto - Que la fuerza te acompañe.</p>
+            <p>© 2025 · Hecho con <span class="heart">❤️</span> por Arel Conde Olgado & David Britto </p>
         </footer>
     </div>
 <script>
@@ -48,6 +48,11 @@
   // Auto-slide cada 6 segundos (opcional)
   setInterval(nextSlide, 6000);
 </script>
+
+{% block extra_scripts %}
+    {{ form.media }}
+{% endblock %}
+
 
 </body>
 </html>

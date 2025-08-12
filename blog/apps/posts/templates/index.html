@@ -17,7 +17,7 @@
             {% for post in posts %}
                 <article class="blog-post">
                     <h2 class="blog-post-title">
-                        <a href="{% url 'post' post.id %}" class="post-link">
+                        <a href="{% url 'post_detail' post.id %}" class="post-link">
                             {{ post.titulo }}
                         </a>
                     </h2>

@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from .models import Post, Categoria
 from django.views import generic 
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
+from .forms import PostForm
 # Create your views here.
 
 def index(request):
@@ -28,3 +31,18 @@ class PostDetailView(generic.DetailView):
 def user_logout(request):
     logout(request)
     return render(request, 'registration/logged_out.html', {})
+
+@login_required
+def crear_post(request):
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.autor = request.user  # Asigna automáticamente el autor
+            post.save()
+            return redirect('post_detail', pk=post.pk)  # O a 'post_list' si preferís
+    else:
+        form = PostForm()
+
+    categorias = Categoria.objects.all()
+    return render(request, 'posts/crear_post.html', {'form': form, 'categorias': categorias})

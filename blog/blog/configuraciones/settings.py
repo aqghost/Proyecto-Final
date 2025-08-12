@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     'apps.usuario',
     'apps.posts',
+    'ckeditor',
 ]
 
 MIDDLEWARE = [
@@ -133,3 +134,11 @@ LOGIN_REDIRECT_URL = "/"
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR),'media')
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+        'height': 300,
+        'width': '100%',
+    },
+}
