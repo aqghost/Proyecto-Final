@@ -1,17 +1,19 @@
 <nav class="navbar">
   <div class="nav-left">
-    <a href="#" class="brand">DevOpsMania</a>
-    <a href="#">Inicio</a>
-    <a href="#">Destacados</a>
+    <a href="/" class="brand">DevOpsMania</a>
+    <a href="/">Inicio</a>
 
     <div class="dropdown">
       <span>Categorias</span>
       <div class="dropdown-content">
         {% for c in categorias %}
-          <a href="#">{{ c.nombre }}</a>
+          <a class="dropdown-item" href="{% url 'categorias' c.nombre %}"> {{ c.nombre }} </a>
         {% endfor %}
       </div>
     </div>
+
+    <a href="#">Acerca de</a>
+    <a href="#">Contacto</a>
   </div>
 
   <div class="nav-right">
@@ -19,9 +21,12 @@
       <form method="post" action="{% url 'logout' %}">{% csrf_token %}
         <button type="submit">Log out</button>
       </form>
+      <form method="post" action="{% url 'crear_post' %}">{% csrf_token %}
+        <button type="submit">Crear post</button>
+      </form>
     {% else %}
       <a href="{% url 'login' %}">Log In</a>
-      <a href="#">Sign Up</a>
+      <a href="{% url 'signup' %}">Sign Up</a>
     {% endif %}
   </div>
 </nav>

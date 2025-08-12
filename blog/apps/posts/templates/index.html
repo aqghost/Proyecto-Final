@@ -36,7 +36,15 @@
             </div>
 
             <div class="sidebar-box">
-                <h4>¿Más Cosas?</h4>
+                <h4>Ordenar posts</h4>
+                <form method="get">
+                    <select name="orden" id="orden" onchange="this.form.submit()" class="form-select form-select-sm" aria-label="Small select example">
+                        <option value="desc" {% if orden == "desc" %}selected{% endif %}>Descendente</option>
+                        <option value="asc" {% if orden == "asc" %}selected{% endif %}>Ascendente</option>
+                        <option value="az" {% if orden == "az" %}selected{% endif %}>Alfabeticamente (A a Z)</option>
+                        <option value="za" {% if orden == "za" %}selected{% endif %}>Alfabeticamente (Z a A)</option>
+                    </select>
+                </form>
             </div>
         </aside>
 

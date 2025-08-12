@@ -2,11 +2,15 @@ from django.db import models
 from django.utils import timezone
 from django.conf import settings
 from ckeditor.fields import RichTextField
+from django. urls import reverse
 
 
 # Create your models here.
 class Categoria(models.Model):
     nombre = models.CharField(max_length=30, null=False)
+
+    def get_absolute_url(self):
+        return reverse("categoria", kwargs={"nombre": self.nombre})
 
     def __str__(self):
         return self.nombre
@@ -24,5 +28,8 @@ class Post(models.Model):
     class Meta:
         ordering = ('-publicado',)
 
+    def get_absolute_url(self):
+        return reverse('post_detail', args=(str(self.id)))
+    
     def __str__(self):
         return self.titulo    
