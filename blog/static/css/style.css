@@ -1,4 +1,4 @@
-/* Tema galáctico */
+
 body {
     margin: 0;
     padding: 0;
@@ -183,12 +183,6 @@ footer {
     text-align: center;
 }
 
-.a.slide-link {
-    color: #ffd700;
-    text-decoration: none;
-    font-weight: bold;
-    font-family: 'Orbitron', sans-serif;
-}
 
 .form-container h1 {
     color: #ffd700;
@@ -242,4 +236,44 @@ form button:hover {
         flex-direction: column;
         gap: 1rem;
     }
+}
+.form-container {
+    max-width: 600px;
+    margin: 4rem auto;
+    padding: 2rem;
+    background-color: rgb(50, 70, 105);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: Inter, Sans Serif
+    color: #fafafa;
+}
+
+.form-container h1 {
+    margin-bottom: 1rem;
+}
+
+form input[type="text"],
+form textarea,
+form select {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid #64b9f1;
+    border-radius: 4px;
+    font-family: inherit;
+}
+
+form button {
+    width: 100%;
+    padding: 0.8rem;
+    font-weight: bold;
+    background-color: #007bff;
+    color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #0056b3;
 }

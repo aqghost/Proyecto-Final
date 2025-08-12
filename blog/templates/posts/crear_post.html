@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Nueva entrada{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h1>Crear nueva entrada</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {{ form.media }}
+        <button type="submit">Publicar entrada</button>
+    </form>
+</div>
+{% endblock %}
