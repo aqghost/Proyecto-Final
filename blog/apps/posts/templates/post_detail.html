@@ -7,6 +7,17 @@
 
     <div class="post-header">
         <h1 class="post-title">{{ post.titulo }}</h1>
+
+        {% if user.is_authenticated and user == post.autor %}
+        <div class="post-buttons">
+            <form method="post" action="{% url 'editar_post' post.id %}">{% csrf_token %}
+                <button type="submit">Editar</button>
+            </form>
+            <a href="{% url 'eliminar_post' post.id %}"><button>Eliminar</button></a>
+        </div>
+        {% endif %}
+
+        <div class="post-author">{{ post.autor }}</div>
         <div class="post-date">Publicado: {{ post.publicado }}</div>
     </div>
 
@@ -19,9 +30,10 @@
     {% endif %}
 
     <div class="post-body">
-        <p>{{ post.texto }}</p>
+        {{ post.texto | safe}}
     </div>
 
-    <a href="{% url 'post_list' %}" class="btn-back">⟵ Volver</a>
+
+    <a href="{% url 'index' %}" class="btn-back">⟵ Volver</a>
 </article>
 {% endblock %}
