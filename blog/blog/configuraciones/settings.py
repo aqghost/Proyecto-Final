@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'apps.usuario',
     'apps.posts',
     'ckeditor',
+    'ckeditor_uploader'
 ]
 
 MIDDLEWARE = [
@@ -133,13 +134,32 @@ AUTH_USER_MODEL = 'usuario.Usuario'
 LOGOUT_REDIRECT_URL = "/"
 LOGIN_REDIRECT_URL = "/"
 
+# Ruta donde se guardarán las imágenes subidas
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR),'media')
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'media')
+
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+CKEDITOR_IMAGE_BACKEND = 'pillow'
+CKEDITOR_ALLOW_NONIMAGE_FILES = False
+CKEDITOR_RESTRICT_BY_USER = False
+CKEDITOR_RESTRICT_BY_DATE = False
+
+# Permitir subida de archivos a usuarios no-staff
+def CKEDITOR_UPLOAD_PERMISSION(request):
+    return request.user.is_authenticated
+
+CKEDITOR_UPLOAD_PERMISSION = CKEDITOR_UPLOAD_PERMISSION
+CKEDITOR_BROWSE_SHOW_DIRS = True
+
+# Configuración de archivos permitidos
+CKEDITOR_UPLOAD_SLUGIFY_FILENAME = True
 
 CKEDITOR_CONFIGS = {
     'default': {
         'toolbar': 'full',
         'height': 300,
         'width': '100%',
+        'filebrowserUploadUrl': '/upload/',
+        'extraPlugins': 'uploadimage',
     },
 }

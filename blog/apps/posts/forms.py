@@ -5,7 +5,7 @@ from .models import Post
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['titulo', 'subtitulo', 'texto', 'categoria', 'destacado']
+        fields = ['titulo', 'subtitulo', 'texto', 'imagen', 'categoria', 'destacado']
         widgets = {
             'texto': CKEditorWidget(),
         }
