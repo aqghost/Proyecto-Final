@@ -69,6 +69,7 @@ TEMPLATES = [
         },
     },
 ]
+TEMPLATES[0]['OPTIONS']['context_processors'].append('apps.posts.context_processors.procesar_categorias')
 
 WSGI_APPLICATION = 'blog.wsgi.application'
 
