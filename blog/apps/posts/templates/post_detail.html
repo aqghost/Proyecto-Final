@@ -19,7 +19,7 @@
     {% endif %}
 
     <div class="post-body">
-        <p>{{ post.texto }}</p>
+        {{ post.texto|safe }}
     </div>
 
     <a href="{% url 'post_list' %}" class="btn-back">⟵ Volver</a>
