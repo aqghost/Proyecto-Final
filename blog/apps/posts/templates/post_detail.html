@@ -35,5 +35,41 @@
 
 
     <a href="{% url 'index' %}" class="btn-back">⟵ Volver</a>
+
+    <hr>
+    <h3>Enviar un comentario</h3>
+    {% if user.is_authenticated %}
+        <div class="comment-form-buttons">
+                <button type="button" onclick="commentDisplay()" id="btn-comentario">Comentar</button>
+                <form method="POST">
+                    <div id="case" style="display:none">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="button" onclick="commentHide()">Cancelar</button>
+                        <button type="submit" onclick="commentHide()">Comentar</button>
+                    </div>
+                </form>
+        </div>
+    {% else %}
+        <p>Debes <a href="{% url 'login' %}">iniciar sesión</a> para comentar!</p>
+    {% endif %}
+    <hr>
+    <h3 id="comentarios">Comentarios</h3>
+    {% if not post.comentarios.all %}
+        Caja de comentarios vacia...
+    {% else %}
+        {% for comentario in post.comentarios.all %}
+        <div class="blog-post">
+            <div class="box-comentarios">
+                <strong>{{ comentario.com_autor}}</strong>
+                <strong>{{ comentario.fecha_publicacion }}</strong>
+            </div>
+            <br>
+            <hr>
+            {{ comentario.com_texto }}
+            <br><br>
+        </div>
+        {% endfor %}
+    {% endif %}
 </article>
 {% endblock %}

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Post, Categoria
 from django.views import generic 
 from django.contrib.auth.decorators import login_required
-from .forms import PostForm
+from .forms import PostForm, PostCommentForm
 from django.utils import timezone
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -41,7 +41,37 @@ class PostDetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categorias'] = Categoria.objects.all()
+        context['form'] = PostCommentForm()
         return context
+
+class PostCommentFormView(LoginRequiredMixin, SingleObjectMixin, generic.FormView):
+    template_name = 'post_detail.html'
+    form_class= PostCommentForm
+    model = Post
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().post(request, *args, **kwargs)
+    
+    def form_valid(self, form):
+        f = form.save(commit=False)
+        f.com_autor = self.request.user
+        f.post = self.object
+        f.save()
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        return reverse('post_detail', kwargs={'pk': self.object.pk}) + '#comentarios'
+    
+class PostView(generic.View):
+    
+    def get(self, request, *args, **kwargs):
+        view = PostDetailView.as_view()
+        return view(request, *args, **kwargs)
+    
+    def post(self, request, *args, **kwargs):
+        view = PostCommentFormView.as_view()
+        return view(request, *args, **kwargs)
 
 class CategoryListView(generic.ListView):
     model = Post

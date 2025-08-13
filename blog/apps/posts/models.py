@@ -35,4 +35,13 @@ class Post(models.Model):
         return reverse('post_detail', args=(str(self.id)))
     
     def __str__(self):
-        return self.titulo    
+        return self.titulo
+
+class Comentario(models.Model):
+    post = models.ForeignKey(Post, related_name="comentarios", on_delete=models.CASCADE)
+    com_autor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
+    com_texto = models.TextField()
+    fecha_publicacion = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return '%s - %s' % (self.post.titulo, self.com_autor)
