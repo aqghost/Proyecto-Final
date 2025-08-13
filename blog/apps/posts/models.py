@@ -2,7 +2,9 @@ from django.db import models
 from django.utils import timezone
 from django.conf import settings
 from ckeditor.fields import RichTextField
-from django. urls import reverse
+from django.urls import reverse
+from ckeditor_uploader.fields import RichTextUploadingField
+
 
 
 # Create your models here.
@@ -19,7 +21,8 @@ class Post(models.Model):
     titulo = models.CharField(max_length=50, null=False)
     subtitulo = models.CharField(max_length=100, null=True, blank=True)
     fecha = models.DateTimeField(auto_now_add=True)
-    texto = RichTextField(null=False, blank=False)
+    texto = RichTextUploadingField()
+    imagen = models.ImageField(upload_to='posts/', null=True, blank=True)
     categoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True, default='Sin categoria')
     autor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
     destacado = models.BooleanField(default=False)
