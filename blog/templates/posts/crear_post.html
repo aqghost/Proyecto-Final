@@ -9,7 +9,7 @@
         <p><strong>💡 Tip:</strong> Las imágenes se ajustarán automáticamente al ancho del blog. Para mejor calidad, usa imágenes de al menos 800px de ancho.</p>
     </div>
 
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
 
         <div class="form-group">
@@ -17,6 +17,9 @@
         </div>
         <div class="form-group">
             {{ form.subtitulo.label_tag }} {{ form.subtitulo }}
+        </div>
+        <div class="form-group">
+            {{ form.imagen.label_tag }} {{ form.imagen }}
         </div>
         <div class="form-group">
             {{ form.destacado.label_tag }} {{ form.destacado }}

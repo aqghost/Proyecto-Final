@@ -3,23 +3,91 @@
 {% block title %}Crear cuenta{% endblock %}
 
 {% block content %}
-<div class="signup-page">
-
-    <div class="crawl-container">
-        <div class="crawl-text">
-            <h1>Únete a la Resistencia</h1>
-            <p>Que la fuerza te acompañe mientras creas tu cuenta</p>
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <div class="auth-icon">⭐</div>
+            <h1>¡Únete a la DevOpsMania!</h1>
+            <p>Crea tu cuenta y forma parte de la comunidad</p>
         </div>
-    </div>
 
-    <form method="post" action="{% url 'signup' %}" class="signup-form">
-        {% csrf_token %}
-        {{ form }}
-        <button type="submit">Crear cuenta</button>
-    </form>
+        <form method="post" action="{% url 'signup' %}" class="auth-form">
+            {% csrf_token %}
+            
+            <div class="input-group">
+                <div class="input-icon">👤</div>
+                <div class="input-field">
+                    <label for="{{ form.username.id_for_label }}">Nombre de usuario</label>
+                    {{ form.username }}
+                    <small style="color: #999; font-size: 0.8rem; margin-top: 0.3rem; display: block;">Este será tu nombre público en comentarios y posts</small>
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <div class="input-icon">👨</div>
+                <div class="input-field">
+                    <label for="{{ form.first_name.id_for_label }}">Nombre</label>
+                    {{ form.first_name }}
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <div class="input-icon">👨‍👩‍👧‍👦</div>
+                <div class="input-field">
+                    <label for="{{ form.last_name.id_for_label }}">Apellido</label>
+                    {{ form.last_name }}
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <div class="input-icon">📧</div>
+                <div class="input-field">
+                    <label for="{{ form.email.id_for_label }}">Email</label>
+                    {{ form.email }}
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <div class="input-icon">🔒</div>
+                <div class="input-field">
+                    <label for="{{ form.password1.id_for_label }}">Contraseña</label>
+                    {{ form.password1 }}
+                </div>
+            </div>
+            
+            <div class="password-tips">
+                <h4>🛡️ Tu contraseña debe tener:</h4>
+                <ul>
+                    <li>Al menos 8 caracteres</li>
+                    <li>Una letra mayúscula y una minúscula</li>
+                    <li>Al menos un número</li>
+                    <li>Un carácter especial (@, #, $, etc.)</li>
+                </ul>
+            </div>
+            
+            <div class="input-group">
+                <div class="input-icon">🔐</div>
+                <div class="input-field">
+                    <label for="{{ form.password2.id_for_label }}">Confirmar contraseña</label>
+                    {{ form.password2 }}
+                </div>
+            </div>
+            
+            <button type="submit" class="auth-btn primary">Crear Cuenta</button>
+        </form>
 
-    <div class="signup-links">
-        <p>¿Ya tenés una cuenta? <a href="{% url 'login' %}">Inicia sesión</a></p>
+        <div class="auth-divider">
+            <span>o continúa con</span>
+        </div>
+
+        <button type="button" class="auth-btn google" disabled>
+            <span class="btn-icon">🌐</span>
+            Google (Próximamente)
+        </button>
+
+        <div class="auth-footer">
+            <p>¿Ya tenés una cuenta? <a href="{% url 'login' %}" class="link-primary">Iniciar sesión</a></p>
+        </div>
     </div>
 </div>
 {% endblock %}

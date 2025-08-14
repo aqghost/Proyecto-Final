@@ -4,20 +4,49 @@
 {% block title %}Iniciar sesión{% endblock %}
 
 {% block content %}
-<div class="form-container">
-    <h1>¡Bienvenido!</h1>
-    <p>Iniciá sesión para continuar</p>
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <div class="auth-icon">🚀</div>
+            <h1>¡Bienvenido de vuelta!</h1>
+            <p>Iniciá sesión para continuar tu aventura galáctica</p>
+        </div>
 
-    <form method="post" action="{% url 'login' %}">
-        {% csrf_token %}
-        {{ form.as_p }}
+        <form method="post" action="{% url 'login' %}" class="auth-form">
+            {% csrf_token %}
+            
+            <div class="input-group">
+                <div class="input-icon">👤</div>
+                <div class="input-field">
+                    <label for="{{ form.username.id_for_label }}">Nombre de usuario</label>
+                    {{ form.username }}
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <div class="input-icon">🔒</div>
+                <div class="input-field">
+                    <label for="{{ form.password.id_for_label }}">Contraseña</label>
+                    {{ form.password }}
+                </div>
+            </div>
 
-        <button type="submit">Ingresar</button>
-    </form>
+            <button type="submit" class="auth-btn primary">Ingresar al Sistema</button>
+        </form>
 
-    <div class="form-footer">
-        <p><a href="{% url 'password_reset' %}">¿Olvidaste tu contraseña?</a></p>
-        <p>¿Nuevo? <a href="{% url 'signup' %}">Registrate</a></p>
+        <div class="auth-divider">
+            <span>o continúa con</span>
+        </div>
+
+        <button type="button" class="auth-btn google" disabled>
+            <span class="btn-icon">🌐</span>
+            Google (Próximamente)
+        </button>
+
+        <div class="auth-footer">
+            <p><a href="{% url 'signup' %}" class="link-secondary">¿Olvidaste tu contraseña?</a></p>
+            <p>¿Nuevo en DevOpsMania? <a href="{% url 'signup' %}" class="link-primary">Crear cuenta</a></p>
+        </div>
     </div>
 </div>
 {% endblock %}

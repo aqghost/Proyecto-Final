@@ -1,7 +1,7 @@
 <nav class="navbar">
   <div class="nav-left">
-    <a href="/" class="brand">DevOpsMania</a>
-    <a href="/">Inicio</a>
+    <a href="{% url 'index' %}" class="brand">DevOpsMania</a>
+    <a href="{% url 'index' %}">Inicio</a>
 
     <div class="dropdown">
       <span>Categorias</span>
@@ -12,8 +12,8 @@
       </div>
     </div>
 
-    <a href="#">Acerca de</a>
-    <a href="#">Contacto</a>
+    <a href="{% url 'index' %}">Quienes Somos</a>
+    <a href="{% url 'index' %}">Contacto</a>
   </div>
 
   <div class="nav-right">
@@ -21,9 +21,9 @@
       <form method="post" action="{% url 'logout' %}">{% csrf_token %}
         <button type="submit">Log out</button>
       </form>
-      <form method="post" action="{% url 'crear_post' %}">{% csrf_token %}
-        <button type="submit">Crear post</button>
-      </form>
+      <a href="{% url 'crear_post' %}">
+        <button type="button">Crear post</button>
+      </a>
     {% else %}
       <a href="{% url 'login' %}">Log In</a>
       <a href="{% url 'signup' %}">Sign Up</a>

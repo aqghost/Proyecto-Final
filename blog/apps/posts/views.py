@@ -88,7 +88,7 @@ class CategoryListView(generic.ListView):
 class EditPostView(generic.UpdateView):
     model = Post
     template_name = "posts/editar_post.html"
-    fields = ['titulo','subtitulo', 'texto']
+    fields = ['titulo','subtitulo', 'texto', 'imagen', 'categoria', 'destacado']
 
 class DeletePostView(generic.DeleteView):
     model = Post

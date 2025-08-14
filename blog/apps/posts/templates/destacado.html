@@ -8,13 +8,26 @@
                     {% if post.imagen %}
                         <div class="slide-image">
                             <img src="{{ post.imagen.url }}" alt="{{ post.titulo }}">
+                            <div class="image-overlay"></div>
+                        </div>
+                    {% else %}
+                        <div class="slide-image placeholder">
+                            <div class="placeholder-icon">🚀</div>
+                            <p style="color: #999; font-size: 0.8rem; margin-top: 1rem;">Sin imagen</p>
+                            <div class="image-overlay"></div>
                         </div>
                     {% endif %}
                     <div class="slide-content">
+                        <div class="slide-number">{{ forloop.counter }} / {{ destacado|length }}</div>
                         <h3>{{ post.titulo }}</h3>
-                        <p class="slide-subtitle">{{ post.subtitulo }}</p>
-                        <p class="slide-meta">{{ post.publicado|date:"d M Y" }} • {{ post.autor }}</p>
-                        <a href="{% url 'post_detail' post.id %}" class="slide-btn">Leer más</a>
+                        {% if post.subtitulo %}
+                            <p class="slide-subtitle">{{ post.subtitulo }}</p>
+                        {% endif %}
+                        <p class="slide-meta">
+                            <span class="meta-date">📅 {{ post.publicado|date:"d M Y" }}</span>
+                            <span class="meta-author">👤 {{ post.autor }}</span>
+                        </p>
+                        <a href="{% url 'post_detail' post.id %}" class="slide-btn">Leer Artículo Completo</a>
                     </div>
                 </div>
             {% endfor %}
