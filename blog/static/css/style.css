@@ -11,6 +11,8 @@ body {
     min-height: 100vh;
     background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
     position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Navbar */
@@ -114,6 +116,7 @@ body {
     padding: 2rem;
     max-width: 1200px;
     margin: 0 auto;
+    flex: 1;
 }
 
 .home-page {
