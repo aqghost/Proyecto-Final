@@ -1,6 +1,7 @@
 from django import forms
 from ckeditor.widgets import CKEditorWidget
 from .models import Post, Comentario
+from django.core.validators import EmailValidator
 
 class PostForm(forms.ModelForm):
     class Meta:

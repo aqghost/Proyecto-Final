@@ -4,6 +4,7 @@ from django.conf import settings
 from ckeditor.fields import RichTextField
 from django.urls import reverse
 from ckeditor_uploader.fields import RichTextUploadingField
+from ..usuario.models import Usuario
 
 
 
@@ -27,7 +28,12 @@ class Post(models.Model):
     autor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
     destacado = models.BooleanField(default=False)
     publicado = models.DateTimeField(default=timezone.now)
+    likes = models.ManyToManyField(Usuario, related_name='blog_post')
 
+
+    def total_likes(self):
+        return self.likes.count()
+    
     class Meta:
         ordering = ('-publicado',)
 
@@ -39,9 +45,12 @@ class Post(models.Model):
 
 class Comentario(models.Model):
     post = models.ForeignKey(Post, related_name="comentarios", on_delete=models.CASCADE)
-    com_autor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
+    com_autor = models.ForeignKey(Usuario, on_delete=models.SET_NULL, null=True)
     com_texto = models.TextField()
     fecha_publicacion = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ('-fecha_publicacion',)
 
     def __str__(self):
         return '%s - %s' % (self.post.titulo, self.com_autor)

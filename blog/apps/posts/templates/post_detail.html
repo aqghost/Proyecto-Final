@@ -6,24 +6,24 @@
 <article class="post-detail">
 
     <div class="post-header">
-        <h1 class="post-title">{{ post.titulo }}</h1>
-
+        <h1 class="section-title">{{ post.titulo }}</h1>
+        <div class="post-author">{{ post.autor.username }}</div>
+        <br>
+        <div class="post-date">Publicado: {{ post.publicado }}</div>
         {% if user.is_authenticated and user == post.autor %}
         <div class="post-buttons">
             <a href="{% url 'editar_post' post.id %}">
-                <button type="button">Editar</button>
+                <button type="button">&#9998; Editar</button>
             </a>
             <a href="{% url 'eliminar_post' post.id %}">
-                <button type="button">Eliminar</button>
+                <button type="button" class="btn-danger">&#128465; Eliminar</button>
             </a>
         </div>
         {% endif %}
 
-        <div class="post-author">{{ post.autor }}</div>
-        <div class="post-date">Publicado: {{ post.publicado }}</div>
     </div>
 
-    <hr>
+    <hr class="yellow-hr">
 
     {% if post.image %}
         <div class="post-image">
@@ -35,11 +35,22 @@
         {{ post.texto|safe }}
     </div>
 
+    <form action="{% url 'like_post' post.id %}" method="POST" class="like-form">
+        {% csrf_token %}
+        {% if user.is_authenticated %}
+            {% if liked %}
+                <button type="Submit" name="post_id" value="{{post.id}}" class="btn-unlike">Unlike</button>
+            {% else %}
+                <button type="Submit" name="post_id" value="{{post.id}}" class="btn-like">Like</button>
+            {% endif %}
+            <p>- {{total_likes}} Likes</p>
+        {% else %}
+            <p>Debes iniciar sesión para dar me gusta!</p>
+        {% endif %}
+    </form>
 
-    <a href="{% url 'index' %}" class="btn-back">⟵ Volver</a>
-
-    <hr>
-    <h3>Enviar un comentario</h3>
+    <hr class="yellow-hr">
+    <h3 class="comment-title">Enviar un comentario</h3>
     {% if user.is_authenticated %}
         <div class="comment-form-buttons">
                 <button type="button" onclick="commentDisplay()" id="btn-comentario">Comentar</button>
@@ -47,7 +58,7 @@
                     <div id="case" style="display:none">
                         {% csrf_token %}
                         {{ form.as_p }}
-                        <button type="button" onclick="commentHide()">Cancelar</button>
+                        <button type="reset" onclick="commentHide()">Cancelar</button>
                         <button type="submit" onclick="commentHide()">Comentar</button>
                     </div>
                 </form>
@@ -55,21 +66,35 @@
     {% else %}
         <p>Debes <a href="{% url 'login' %}">iniciar sesión</a> para comentar!</p>
     {% endif %}
-    <hr>
-    <h3 id="comentarios">Comentarios</h3>
+    <hr class="yellow-hr">
+    <h3 class="comment-title" id="comentarios">Comentarios</h3>
     {% if not post.comentarios.all %}
-        Caja de comentarios vacia...
+        {% if user.is_authenticated %}
+        <p>Todavía no hay comentarios... Añade uno!</p>
+        {% else %}
+        <p>Todavía no hay comentarios... <a href="{% url 'login'%}">Inicia sesión</a> y añade uno!</p>
+        {% endif %}
     {% else %}
         {% for comentario in post.comentarios.all %}
         <div class="blog-post">
             <div class="box-comentarios">
-                <strong>{{ comentario.com_autor}}</strong>
+                <strong>{{ comentario.com_autor.username}}</strong>
                 <strong>{{ comentario.fecha_publicacion }}</strong>
             </div>
             <br>
             <hr>
             {{ comentario.com_texto }}
             <br><br>
+            {% if user.is_authenticated and user == com_autor.username or user.es_colaborador %}
+            <div class="post-buttons">
+                <a href="{% url 'editar_comentario' post.id comentario.id%}">
+                    <button type="button">&#9998; Editar</button>
+                </a>
+                <a href="{% url 'eliminar_comentario' post.id comentario.id %}">
+                    <button type="button" class="btn-danger">&#128465; Eliminar</button>
+                </a>
+            </div>
+            {%endif%}
         </div>
         {% endfor %}
     {% endif %}

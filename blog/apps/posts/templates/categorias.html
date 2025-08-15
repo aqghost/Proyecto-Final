@@ -7,30 +7,42 @@
 
         <div class="row g-5">
             <div class="col-md-8">
-                <h3 class="pb-4 mb-4 fst-italic border-bottom">
-                    Destacados
-                </h3>
-                {% for post in post_list %}
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <a href="{% url 'post_detail' post.id %}" style="text-decoration: none"class="text-black">{{ post.titulo }}</a>
-                            </h5>
-                            <p class="card-text">{{ post.subtitulo }}</p>
-                            <p class="card-text"><small class="text-muted">Ultima edición {{ post.fecha }}</small></p>
+                <h2 class="section-title">
+                    Categoria: {{ urlcategorias.2 }}
+                </h2>
+                <div class="col-md-4">
+                    <div class="position-sticky" style="top: 2rem;">
+                        <div class="p-4 mb-3 bg-light rounded">
+                            <h4 class="fst-italic">Encontrados: {{ post_list|length }}</h4>
+                            <h4>Ordenar posts:
+                                <form method="get">
+                                    <select name="orden" id="orden" onchange="this.form.submit()" class="form-select form-select-sm" aria-label="Small select example">
+                                        <option value="desc" {% if request.GET.orden == "desc" %}selected{% endif %}>Descendente</option>
+                                        <option value="asc" {% if request.GET.orden == "asc" %}selected{% endif %}>Ascendente</option>
+                                        <option value="az" {% if request.GET.orden == "az" %}selected{% endif %}>Alfabeticamente (A a Z)</option>
+                                        <option value="za" {% if request.GET.orden == "za" %}selected{% endif %}>Alfabeticamente (Z a A)</option>
+                                    </select>
+                                    <hr class="yellow-hr">
+                                </form>
+                            </h4>
                         </div>
                     </div>
+                </div>
+                {% for post in post_list %}
+                    <article class="blog-post">
+                        <h2 class="blog-post-title">
+                            <a href="{% url 'post_detail' post.id %}" class="post-link">
+                                {{ post.titulo }}
+                            </a>
+                        </h2>
+                        <p class="blog-post-meta">{{ post.publicado }} · {{ post.autor }}</p>
+                        <hr>
+                        <p>{{ post.subtitulo }}</p>
+                    </article>
                 {% endfor %}
             </div>
 
-            <div class="col-md-4">
-                <div class="position-sticky" style="top: 2rem;">
-                    <div class="p-4 mb-3 bg-light rounded">
-                        <h4 class="fst-italic">Encontrados:</h4>
-                        <p class="mb-0">{{ post_list|length }}</p>
-                    </div>
-                </div>
-            </div>
+            
         </div>
 
     </main>

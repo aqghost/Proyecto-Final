@@ -5,3 +5,9 @@ def procesar_categorias(request):
     return {
         'categorias': categorias
     }
+
+def urlcategorias(request):
+    urlsplit = request.path.split('/')
+    return {
+        'urlcategorias' : urlsplit
+    }

@@ -1,12 +1,13 @@
-from django.shortcuts import render, redirect
-from .models import Post, Categoria
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Post, Categoria, Comentario
 from django.views import generic 
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from .forms import PostForm, PostCommentForm
 from django.utils import timezone
 from django.urls import reverse_lazy, reverse
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic.detail import SingleObjectMixin
+from django.http import HttpResponseRedirect
 
 # Create your views here.
 
@@ -39,9 +40,19 @@ class PostDetailView(generic.DetailView):
     template_name='post_detail.html'
 
     def get_context_data(self, **kwargs):
+
+        post_like = get_object_or_404(Post, id=self.kwargs['pk'])
+        total_likes = post_like.total_likes()
+
+        liked = False
+        if post_like.likes.filter(id=self.request.user.id).exists():
+            liked = True
+
         context = super().get_context_data(**kwargs)
         context['categorias'] = Categoria.objects.all()
         context['form'] = PostCommentForm()
+        context['total_likes'] = total_likes
+        context['liked'] = liked
         return context
 
 class PostCommentFormView(LoginRequiredMixin, SingleObjectMixin, generic.FormView):
@@ -76,30 +87,59 @@ class PostView(generic.View):
 class CategoryListView(generic.ListView):
     model = Post
     template_name = 'categorias.html'
-
+    
     def get_queryset(self):
         query = self.request.path.replace('/categoria/','')
+        orden = self.request.GET.get('orden', 'desc')
+
         post_list = Post.objects.filter(categoria__nombre = query).filter(
             publicado__lte=timezone.now()
         )
 
+        if orden == 'asc':
+            post_list = post_list.order_by('publicado')
+        elif orden == 'desc':
+            post_list = post_list.order_by('-publicado')
+        elif orden == 'az':
+            post_list = post_list.order_by('titulo')
+        else:
+            post_list = post_list.order_by('-titulo')
+
         return post_list
     
-class EditPostView(generic.UpdateView):
+class EditPostView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
     model = Post
     template_name = "posts/editar_post.html"
     fields = ['titulo','subtitulo', 'texto', 'imagen', 'categoria', 'destacado']
+    def test_func(self):
+        return self.request.user.is_superuser or self.request.user.groups.filter(name='Colaborador').exists()
 
-class DeletePostView(generic.DeleteView):
+class DeletePostView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
     model = Post
     template_name = "posts/eliminar_post.html"
-    success_url = reverse_lazy()
+    success_url = reverse_lazy('index')
+    def test_func(self):
+        return self.request.user.is_superuser or self.request.user.groups.filter(name='Colaborador').exists()
 
+class PostCommentEditView(generic.UpdateView):
+    model = Comentario
+    fields = ['com_texto']
+    template_name = "posts/editar_comentario.html"
+    success_url = "/post/{post_id}/"
+
+class PostCommentDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Comentario
+    template_name = 'posts/eliminar_comentario.html'
+    success_url ="/post/{post_id}/"
 
 def user_logout(request):
     logout(request) # type: ignore
     return render(request, 'registration/logged_out.html', {})
 
+def es_colaborador(user):
+    return user.is_superuser or user.groups.filter(name='Colaborador').exists()
+
+@user_passes_test(es_colaborador, lambda u: u.is_superuser)
 @login_required
 def crear_post(request):
     if request.method == 'POST':
@@ -114,3 +154,18 @@ def crear_post(request):
 
     categorias = Categoria.objects.all()
     return render(request, 'posts/crear_post.html', {'form': form, 'categorias': categorias})
+
+def LikeView(request, pk):
+    post = Post.objects.get(id=pk)
+    liked = False
+    if post.likes.filter(id=request.user.id).exists():
+        post.likes.remove(request.user)
+        liked=False
+    else:
+        post.likes.add(request.user)
+        liked=True
+
+    return HttpResponseRedirect(reverse('post_detail', args=[str(pk)]))
+
+def ContactView(request):
+     return render (request, 'contacto.html')

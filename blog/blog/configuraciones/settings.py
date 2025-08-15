@@ -67,11 +67,14 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',
+                'apps.posts.context_processors.procesar_categorias',
+                'apps.posts.context_processors.urlcategorias',
             ],
         },
     },
 ]
-TEMPLATES[0]['OPTIONS']['context_processors'].append('apps.posts.context_processors.procesar_categorias')
+#TEMPLATES[0]['OPTIONS']['context_processors'].append('apps.posts.context_processors.procesar_categorias')
+#TEMPLATES[0]['OPTIONS']['context_processors'].append('apps.posts.context_processors.urlcategorias')
 
 WSGI_APPLICATION = 'blog.wsgi.application'
 
