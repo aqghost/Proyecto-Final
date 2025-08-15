@@ -69,8 +69,7 @@ python manage.py runserver
 
 David Britto, @david-dev
 
-
-[Otros integrantes aquí]
+Arel Conde Olgado, @aqghost
 
 #Proyecto desarrollado dentro del programa Informatorio Chaco.
 
