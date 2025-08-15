@@ -22,3 +22,11 @@ class PostCommentForm(forms.ModelForm):
             .update({
                 'placeholder': 'Inserte un comentario',
         })
+
+class ContactForm(forms.Form):
+    nombre = forms.CharField(max_length=100, label="Nombre")
+    correo = forms.EmailField(label="Correo electrónico")
+    mensaje = forms.CharField(
+        widget=forms.Textarea(attrs={'rows': 5}),
+        label="Mensaje"
+    )

@@ -3,10 +3,17 @@
 {% block title %}Contacto{% endblock %}
 {% block content %}
 <article class="post-detail">
-    <h1>Contacto</h1>
+    <h1 class="section-title">Contacto</h1>
     <p>Arel Conde Olgado: arelcondeolgado@gmail.com</p>
     <p>David Britto: davidbritto.devops@gmail.com</p>
-    <h2>Formulario de contacto (Proximamente)</h2>
-    <img src="https://www.nicepng.com/png/detail/152-1526179_website-under-construction-png-graphic-transparent-website-under.png">
+    <br>
+    <h2>Formulario de contacto (próximamente funcional)</h2>
+    <div class="form-container">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
 </article>
 {% endblock %}
