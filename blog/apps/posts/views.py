@@ -167,8 +167,20 @@ def LikeView(request, pk):
 
     return HttpResponseRedirect(reverse('post_detail', args=[str(pk)]))
 
-def ContactView(request):
-     return render (request, 'contacto.html')
-
 def AboutView(request):
      return render (request, 'about.html')
+
+from django.shortcuts import render
+from .forms import ContactForm
+from django.contrib import messages
+
+def ContactView(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            # Acá podrías enviar un correo o guardar el mensaje
+            messages.success(request, 'Mensaje enviado correctamente.')
+            form = ContactForm()  # Limpia el formulario
+    else:
+        form = ContactForm()
+    return render(request, 'contacto.html', {'form': form})
