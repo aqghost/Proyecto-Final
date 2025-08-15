@@ -169,3 +169,6 @@ def LikeView(request, pk):
 
 def ContactView(request):
      return render (request, 'contacto.html')
+
+def AboutView(request):
+     return render (request, 'about.html')

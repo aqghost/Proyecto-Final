@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import index, PostDetailView, CategoryListView, crear_post, EditPostView, DeletePostView, PostView, PostCommentDeleteView, PostCommentEditView, LikeView, ContactView
+from .views import index, PostDetailView, CategoryListView, crear_post, EditPostView, DeletePostView, PostView, PostCommentDeleteView, PostCommentEditView, LikeView, ContactView, AboutView
 from .upload_views import upload_image
 
 urlpatterns = [
@@ -13,5 +13,6 @@ urlpatterns = [
     path('post/<int:post_pk>/eliminar-comentario/<int:pk>/', PostCommentDeleteView.as_view(), name='eliminar_comentario'),
     path('post/<int:post_pk>/editar-comentario/<int:pk>/', PostCommentEditView.as_view(), name='editar_comentario'),
     path('like/<int:pk>', LikeView, name='like_post'),
-    path('contacto/', ContactView, name='contactar')
+    path('contacto/', ContactView, name='contactar'),
+    path('about', AboutView, name='acerca_de')
 ]
