@@ -13,7 +13,7 @@
     </div>
 
     <a href="{% url 'index' %}">Quienes Somos</a>
-    <a href="{% url 'index' %}">Contacto</a>
+    <a href="{% url 'contactar' %}">Contacto</a>
   </div>
 
   <div class="nav-right">
@@ -21,9 +21,9 @@
       <form method="post" action="{% url 'logout' %}">{% csrf_token %}
         <button type="submit">Log out</button>
       </form>
-      <a href="{% url 'crear_post' %}">
-        <button type="button">Crear post</button>
-      </a>
+      {% if user.es_colaborador or user.is_superuser %}
+        <button type="button" class="btn-create"><a href="{% url 'crear_post' %}">Crear post</a></button>
+      {% endif %}
     {% else %}
       <a href="{% url 'login' %}">Log In</a>
       <a href="{% url 'signup' %}">Sign Up</a>

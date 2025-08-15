@@ -1,14 +1,13 @@
 {% extends 'base.html' %}
-{% block title %}Editar entrada{% endblock %}
+{% block title %}Editar comentario{% endblock %}
 
 {% block content %}
 <div class="form-container">
-    <h1>Editar entrada</h1>
+    <h1>Editar comentario</h1>
 
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
-        {{ form.media }}
         <button type="submit">Confirmar cambios</button>
     </form>
 </div>

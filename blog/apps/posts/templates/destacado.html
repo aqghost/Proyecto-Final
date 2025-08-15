@@ -25,7 +25,7 @@
                         {% endif %}
                         <p class="slide-meta">
                             <span class="meta-date">📅 {{ post.publicado|date:"d M Y" }}</span>
-                            <span class="meta-author">👤 {{ post.autor }}</span>
+                            <span class="meta-author">👤 {{ post.autor.username }}</span>
                         </p>
                         <a href="{% url 'post_detail' post.id %}" class="slide-btn">Leer Artículo Completo</a>
                     </div>
